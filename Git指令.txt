@@ -1,0 +1,210 @@
+创建版本库
+
+绑定GitHub邮箱
+git config --global user.name "Your Name"
+git config --global user.email "email@example.com"
+
+把目录变成Git可以管理的仓库
+git init
+
+把文件添加到仓库
+
+添加你要提交的文件到暂存区
+git add file
+把当前路径下的所有文件提交到暂存区
+git add .
+
+提交到版本库
+git commit -m "本次提交的说明"
+
+查看仓库当前的状态
+git status
+
+查看修改内容
+git diff file
+
+查看提交日志
+git log 
+
+单行显示提交日志
+git log --pretty=oneline
+
+版本回退
+
+--head参数
+（注：cmd控制台中换行符默认是^，而不是\，
+提示more?的意思是问你下一行是否需要再输入，
+使用时需加双引号，或者使用head~序号）
+
+head  表示当前版本
+head^ 表示上一个版本
+head^^表示上上一个版本
+head~100 表示往上100个版本
+commit_id 提交版本号
+git reset --hard commit_id
+
+查看你执行的命令历史记录
+git reflog
+
+丢弃工作区的修改
+
+若未添加到暂存区（git add file 指令）
+git checkout -- file
+(从版本库里恢复)
+
+已添加到暂存区
+
+先撤销暂存区的修改，再重新放回工作区
+git reset HEAD file
+HEAD表示当前版本
+再执行
+git checkout -- file
+
+已提交不合适的修改到版本库,回退到未修改版本库
+git log --pretty=oneline
+git reset --hard commit_id
+
+从版本库中删除文件
+git rm file
+git commit -m "本次提交的说明"
+
+误删，从版本库里恢复
+git checkout -- file
+
+创建SSH Key
+在用户主目录下，看看有没有.ssh目录，
+如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，
+如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：
+ssh-keygen -t rsa -C "youremail@example.com"
+
+关联GitHub仓库
+git remote add origin git@github.com:你的GitHub账户名/repo-name.git
+repo-name：GitHub上创建的项目名
+
+把本地库的所有内容推送到远程库，并把本地和远程的分支关联起来
+git push -u origin master
+git push origin master
+由于远程库是空的，我们第一次推送master分支时，加上了-u参数，
+Git不但会把本地的master分支内容推送的远程新的master分支，
+还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令
+
+查看远程库信息
+git remote -v
+
+解除本地和远程的绑定关系
+git remote rm origin
+origin远程仓库名
+
+从远程库克隆一个项目到本地
+git clone git@github.com:你的GitHub账户名/repo-name.git
+repo-name：GitHub上创建的项目名
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的
+
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+创建分支
+git branch 分支名
+
+切换分支
+git checkout 分支名
+或者
+git switch 分支名
+
+查看当前分支
+git branch
+git branch命令会列出所有分支，当前分支前面会标一个*号
+
+创建并切换分支
+git checkout -b 分支名
+-b参数表示创建并切换
+或者
+git switch -c 分支名
+
+合并某分支到当前分支
+git merge 被合并的分支名
+
+删除分支
+git branch -d 分支名
+
+查看分支合并情况
+git log --graph --pretty=oneline --abbrev-commit
+
+查看分支合并图
+git log --graph
+
+合并分支模式
+通常，合并分支时，如果可能，Git会用Fast forward模式，
+但这种模式下，删除分支后，会丢掉分支信息
+如果要强制禁用Fast forward模式，
+Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息
+
+--no-ff参数表示禁用Fast forward
+git merge --no-ff -m "merge with no-ff" 分支名
+
+
+存储当前分支的工作现场
+git stash
+
+查看当前分支存储的工作现场列表
+git stash list
+
+恢复工作现场
+git stash apply(恢复后，stash内容并不删除)
+需用git stash drop 来删除
+
+git stash pop 恢复的同时把stash内容也删了
+
+可多次git stash恢复指定的stash
+git stash apple stash@{0}
+
+复制一个特定的提交到当前分支
+git cherry-pick commit_id
+
+如果要丢弃一个没有被合并过的分支，
+可以通过git branch -D 分支名 强行删除
+
+打标签
+git tag v1.0
+
+查看提交历史
+git log --pretty=oneline --abbrev-commit
+
+给对应commit_id打标签
+git tag tagname commit_id
+
+创建带有说明的标签，用-a指定标签名，-m指定说明文字
+git tag -a v0.1 -m "version 0.1 released" 1094adb
+
+查看所有标签
+git tag
+
+查看标签信息
+git show tagname
+
+删除本地标签
+git tag -d tagname
+
+推送某个标签到远程
+git push origin tagname
+
+一次性推送全部尚未推送到远程的本地标签
+git push origin --tags
+
+如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除
+git tag -d tagname
+然后，从远程删除。删除命令也是push，但是格式如下
+git push origin :refs/tags/tagname
+
+让Git显示颜色，会让命令输出看起来更醒目
+git config --global color.ui true
+
+配置别名
+只需要敲一行命令，告诉Git，以后st就表示status
+git config --global alias.st status
