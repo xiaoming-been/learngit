@@ -206,5 +206,5 @@ git push origin :refs/tags/tagname
 git config --global color.ui true
 
 配置别名
-只需要敲一行命令，告诉Git，以后st就表示status
+例如配置st表示status
 git config --global alias.st status
