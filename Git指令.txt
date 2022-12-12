@@ -208,3 +208,8 @@ git config --global color.ui true
 配置别名
 例如配置st表示status
 git config --global alias.st status
+
+对于error: failed to push some fefsto'远程仓库地址'
+(根本原因是在github上创建仓库时创建了readme.md文件并配置添加了忽略文件)
+git pull --rebase origin master
+git push -u origin master
